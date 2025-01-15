@@ -1,0 +1,29 @@
+import random
+import time
+from tkinter import Tk, Canvas
+root = Tk()
+root.title('Egg Catching Game')
+c = Canvas(root, width=400, height=600, background='light blue')
+eggs = [ ]
+def create_egg():
+    x = random.randint(10, 370)
+    y = 0
+    egg_width = 45
+    egg_height = 55
+    new_egg = c.create_oval(x, y, x + egg_width, y + egg_height,
+                            fill='light yellow', width=0)
+    eggs.append(new_egg)
+    root.after(1000, create_egg)
+def move_eggs():
+    for egg in eggs:
+        c.move(egg, 0, 10)
+        egg_x, egg_y, egg_x2, egg_y2 = c.coords(egg)
+        if egg_y2 > 600:
+            eggs.remove(egg)
+            c.delete(egg)
+    root.after(20, move_eggs)
+c.pack()
+root.after(1000, create_egg)
+root.after(1000, move_eggs)
+root.mainloop()
+
